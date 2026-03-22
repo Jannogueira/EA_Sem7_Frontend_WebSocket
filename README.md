@@ -1,5 +1,5 @@
 Ejercicio Seminario WebSockets - Jan Nogueira
-Uso de IA solo para el css.
+Uso de IA Gemini 3 Flash solo para el css de la lista de usuarios conectados.
 
 # ChatApp
 
