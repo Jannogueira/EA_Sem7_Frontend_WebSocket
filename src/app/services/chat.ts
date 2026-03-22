@@ -22,6 +22,7 @@ export class Chat {
   constructor(private http: HttpClient) {
 
     const usuario = sessionStorage.getItem('chat_user_name');
+    console.log('Intentando conectar con usuario:', usuario);
 
     this.socket = io(this.SERVER_URL, {
       query: { username: usuario }

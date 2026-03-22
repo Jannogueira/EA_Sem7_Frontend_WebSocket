@@ -13,11 +13,11 @@ import { Router } from '@angular/router';
   styleUrl: './chat.css',
 })
 export class ChatComponent implements OnInit, OnDestroy {
-  public usuarioActivo: string = ''; 
+  public usuarioActivo: string = '';
   public usuarioActivoName: string = '';
   public organizacionActiva: string = '';
   public organizacionActivaName: string = '';
-  
+
   public nuevoMensaje: string = '';
   public mensajes: Mensaje[] = [];
 
@@ -28,11 +28,13 @@ export class ChatComponent implements OnInit, OnDestroy {
   private stopTypingSub!: Subscription;
   private typingTimeout: any;
 
+  public usuariosConectados: string[] = [];
+
   constructor(
     private chatService: Chat,
     private router: Router,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (typeof window !== 'undefined' && window.sessionStorage) {
@@ -40,6 +42,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.usuarioActivoName = sessionStorage.getItem('chat_user_name') || '';
       this.organizacionActiva = sessionStorage.getItem('chat_org_id') || '';
       this.organizacionActivaName = sessionStorage.getItem('chat_org_name') || '';
+      this.getUsuariosConectados();
     }
 
     if (!this.usuarioActivo || !this.organizacionActiva) {
@@ -118,5 +121,12 @@ export class ChatComponent implements OnInit, OnDestroy {
         chatContainer.scrollTop = chatContainer.scrollHeight;
       }
     }, 100);
+  }
+
+  getUsuariosConectados(): void {
+    this.chatService.getOnlineUsers().subscribe((users: any[]) => {
+      this.usuariosConectados = users;
+      console.log('Lista de usuarios recibida del servidor:', users);
+    });
   }
 }
